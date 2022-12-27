@@ -4,20 +4,18 @@ import {
   DeleteDateColumn,
   Entity,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Board } from './board.entity';
-import { Reply } from './reply.entity';
+import { Comment } from './comment.entity';
 import { User } from './user.entity';
 
 @Entity()
-export class Comment {
+export class Reply {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column({ type: 'varchar', name: 'content', length: 500 })
+  @Column({ type: 'varchar', name: 'content' })
   content: string;
 
   @CreateDateColumn()
@@ -29,12 +27,9 @@ export class Comment {
   @DeleteDateColumn()
   deletedAt: Date;
 
-  @OneToMany(() => Reply, (reply) => reply.comment)
-  replies: Reply[];
-
-  @ManyToOne(() => Board, (board) => board.comments, { cascade: true })
-  board: Board;
-
-  @ManyToOne(() => User, (user) => user.comments, { cascade: true })
+  @ManyToOne(() => User, (user) => user.replies, { cascade: true })
   user: User;
+
+  @ManyToOne(() => Comment, (comment) => comment.replies, { cascade: true })
+  comment: Comment;
 }
