@@ -8,25 +8,26 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Comment } from '../entities/comment.entity';
+import { Reply } from './reply.entity';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn({ type: 'int', name: 'id' })
   id: number;
 
-  @Column({ type: 'string', name: 'email' })
+  @Column({ type: 'varchar', name: 'email', unique: true })
   email: string;
 
-  @Column({ type: 'string', name: 'password' })
+  @Column({ type: 'varchar', name: 'password' })
   password: string;
 
-  @Column({ type: 'string', name: 'userName' })
+  @Column({ type: 'varchar', name: 'userName' })
   userName: string;
 
-  @Column({ type: 'string', name: 'phoneNumber' })
+  @Column({ type: 'varchar', name: 'phoneNumber' })
   phoneNumber: string;
 
-  @Column({ type: 'string', name: 'address' })
+  @Column({ type: 'varchar', name: 'address' })
   address: string;
 
   @CreateDateColumn()
@@ -40,4 +41,7 @@ export class User {
 
   @OneToMany(() => Comment, (comment) => comment.user)
   comments: Comment[];
+
+  @OneToMany(() => Reply, (reply) => reply.user)
+  replies: Reply[];
 }
