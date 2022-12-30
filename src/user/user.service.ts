@@ -23,26 +23,20 @@ export class UserService {
     return result;
   }
 
-  async createUser(data: CreateUserDto): Promise<any> {
+  async createUser(data: CreateUserDto): Promise<void> {
     const user = await this.getUserByEmail(data.email);
     if (user) {
       throw new HttpException('Duplicate user', 400);
     }
     const hashedPassword = await bcrypt.hash(data.password, 10);
-    const result = await this.userRepository
-      .createQueryBuilder()
-      .insert()
-      .into(User)
-      .values({
-        email: data.email,
-        password: hashedPassword,
-        userName: data.userName,
-        phoneNumber: data.phoneNumber,
-        address: data.address,
-      })
-      .execute();
 
-    return result;
+    await this.userRepository.save({
+      email: data.email,
+      password: hashedPassword,
+      userName: data.userName,
+      phoneNumber: data.phoneNumber,
+      address: data.address,
+    });
   }
 
   async updateUser(email: string, data: UpdateUserDto): Promise<any> {
@@ -50,7 +44,6 @@ export class UserService {
     if (!user) {
       throw new NotFoundException();
     }
-
     if (data.password) {
       const hashedPassword = await bcrypt.hash(data.password, 10);
       await this.userRepository.update(user.id, { password: hashedPassword });

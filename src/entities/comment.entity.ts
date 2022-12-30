@@ -20,6 +20,12 @@ export class Comment {
   @Column({ type: 'varchar', name: 'content', length: 500 })
   content: string;
 
+  @Column({ type: 'int', name: 'boardId' })
+  boardId: number;
+
+  @Column({ type: 'int', name: 'userId' })
+  userId: number;
+
   @CreateDateColumn()
   createdAt: Date;
 

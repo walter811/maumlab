@@ -1,4 +1,5 @@
 import {
+  BadRequestException,
   Body,
   Controller,
   Delete,
@@ -20,8 +21,8 @@ export class UserController {
 
   @Get()
   async getUser(@Res() res) {
-    const result = await this.userService.getUser();
-    res.status(200).json({ result });
+    const list = await this.userService.getUser();
+    res.status(200).json({ list });
   }
 
   @Post()
@@ -39,7 +40,10 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   @Patch()
   async updateUser(@Request() req, @Body() data: UpdateUserDto, @Res() res) {
-    const email = req.email;
+    const { email } = req.user;
+    if (!email) {
+      throw new BadRequestException();
+    }
     await this.userService.updateUser(email, data);
     res.status(200).json({ message: 'User updated' });
   }
@@ -47,7 +51,7 @@ export class UserController {
   @UseGuards(AuthGuard('jwt'))
   @Delete()
   async deleteUser(@Request() req, @Res() res) {
-    const userId = req.id;
+    const { userId } = req.user;
     await this.userService.deleteUser(userId);
     res.status(200).json({ message: 'User deleted' });
   }

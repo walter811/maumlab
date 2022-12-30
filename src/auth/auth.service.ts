@@ -15,11 +15,8 @@ export class AuthService {
     const user = await this.userService.getUserByEmail(email);
     const match = await bcrypt.compare(password, user.password);
     if (match) {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      const { password, ...result } = user;
-      const accessToken = await this.jwtService.sign(result);
-      result['token'] = accessToken;
-      return result;
+      const payload = { email: user.email, sub: user.id };
+      return { accessToken: this.jwtService.sign(payload) };
     }
     return null;
   }
