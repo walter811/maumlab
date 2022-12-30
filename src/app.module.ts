@@ -11,6 +11,7 @@ import { AuthModule } from './auth/auth.module';
 import { BoardModule } from './board/board.module';
 import { MorganModule } from 'nest-morgan';
 import { CommentModule } from './comment/comment.module';
+import { ReplyModule } from './reply/reply.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { CommentModule } from './comment/comment.module';
     AuthModule,
     BoardModule,
     CommentModule,
+    ReplyModule,
   ],
   controllers: [UserController],
 })

@@ -1,8 +1,6 @@
 import { Injectable, NotFoundException, Post } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Board } from 'src/entities/board.entity';
-import { Comment } from 'src/entities/comment.entity';
-import { Reply } from 'src/entities/reply.entity';
 import { User } from 'src/entities/user.entity';
 import { Like, Repository } from 'typeorm';
 import { CreatePostingDto } from './dto/createPosting.request.dto';
