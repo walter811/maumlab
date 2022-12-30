@@ -8,6 +8,7 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import { Comment } from '../entities/comment.entity';
+import { Board } from './board.entity';
 import { Reply } from './reply.entity';
 
 @Entity()
@@ -38,6 +39,9 @@ export class User {
 
   @DeleteDateColumn()
   deletedAt: Date;
+
+  @OneToMany(() => Board, (board) => board.user)
+  boards: Board[];
 
   @OneToMany(() => Comment, (comment) => comment.user)
   comments: Comment[];

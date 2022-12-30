@@ -8,9 +8,13 @@ import { User } from './entities/user.entity';
 import { UserController } from './user/user.controller';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { BoardModule } from './board/board.module';
+import { MorganModule } from 'nest-morgan';
+import { CommentModule } from './comment/comment.module';
 
 @Module({
   imports: [
+    MorganModule,
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'postgres',
@@ -24,6 +28,8 @@ import { AuthModule } from './auth/auth.module';
     }),
     UserModule,
     AuthModule,
+    BoardModule,
+    CommentModule,
   ],
   controllers: [UserController],
 })
