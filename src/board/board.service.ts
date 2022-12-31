@@ -1,8 +1,8 @@
-import { Injectable, NotFoundException, Post } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Board } from 'src/entities/board.entity';
-import { User } from 'src/entities/user.entity';
-import { Like, Repository } from 'typeorm';
+import { Board } from '../entities/board.entity';
+import { User } from '../entities/user.entity';
+import { Like, Repository, UpdateResult } from 'typeorm';
 import { CreatePostingDto } from './dto/createPosting.request.dto';
 import { UpdatePostingDto } from './dto/updatePosting.request.dto';
 
@@ -70,36 +70,44 @@ export class BoardService {
     return result;
   }
 
-  async createPosting(userId: number, data: CreatePostingDto): Promise<void> {
+  async createPosting(userId: number, data: CreatePostingDto): Promise<Board> {
     const check = this.userRepository.findOneBy({ id: userId });
     if (!check) {
-      throw new NotFoundException();
+      throw new NotFoundException('Invalid user');
     }
-    await this.boardRepository.save({
+    return await this.boardRepository.save({
       title: data.title,
       content: data.content,
       userId: userId,
     });
   }
 
-  async updatePosting(boardId: number, data: UpdatePostingDto): Promise<void> {
+  async updatePosting(
+    boardId: number,
+    data: UpdatePostingDto,
+  ): Promise<UpdateResult> {
     const check = this.boardRepository.findOneBy({ id: boardId });
     if (!check) {
       throw new NotFoundException('Invalid Posting');
     }
     if (data.title) {
-      await this.boardRepository.update(boardId, { title: data.title });
+      return await this.boardRepository.update(boardId, { title: data.title });
     }
     if (data.content) {
-      await this.boardRepository.update(boardId, { content: data.content });
+      return await this.boardRepository.update(boardId, {
+        content: data.content,
+      });
     }
   }
 
-  async deletePosting(boardId: number): Promise<void> {
+  async deletePosting(boardId: number): Promise<UpdateResult> {
     const check = this.boardRepository.findOneBy({ id: boardId });
     if (!check) {
       throw new NotFoundException('Invalid Posting');
     }
-    await this.boardRepository.softDelete({ id: boardId, deletedAt: null });
+    return await this.boardRepository.softDelete({
+      id: boardId,
+      deletedAt: null,
+    });
   }
 }
