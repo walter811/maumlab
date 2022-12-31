@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Comment } from 'src/entities/comment.entity';
-import { Reply } from 'src/entities/reply.entity';
-import { User } from 'src/entities/user.entity';
-import { Repository } from 'typeorm';
+import { Comment } from '../entities/comment.entity';
+import { Reply } from '../entities/reply.entity';
+import { User } from '../entities/user.entity';
+import { Repository, UpdateResult } from 'typeorm';
 
 @Injectable()
 export class ReplyService {
@@ -20,7 +20,7 @@ export class ReplyService {
     userId: number,
     commentId: number,
     content: string,
-  ): Promise<void> {
+  ): Promise<Reply> {
     const user = await this.userRepository.findOneBy({ id: userId });
     if (!user) {
       throw new NotFoundException('Invalid user');
@@ -29,26 +29,29 @@ export class ReplyService {
     if (!comment) {
       throw new NotFoundException('Invalid comment');
     }
-    await this.replyRepository.save({
+    return await this.replyRepository.save({
       userId: userId,
       commentId: commentId,
       content: content,
     });
   }
 
-  async updateReply(replyId: number, content: string): Promise<void> {
+  async updateReply(replyId: number, content: string): Promise<UpdateResult> {
     const reply = await this.replyRepository.findOneBy({ id: replyId });
     if (!reply) {
       throw new NotFoundException('Invalid reply');
     }
-    await this.replyRepository.update(replyId, { content: content });
+    return await this.replyRepository.update(replyId, { content: content });
   }
 
-  async deleteReply(replyId: number): Promise<void> {
+  async deleteReply(replyId: number): Promise<UpdateResult> {
     const reply = await this.replyRepository.findOneBy({ id: replyId });
     if (!reply) {
       throw new NotFoundException('Invalid reply');
     }
-    await this.replyRepository.softDelete({ id: replyId, deletedAt: null });
+    return await this.replyRepository.softDelete({
+      id: replyId,
+      deletedAt: null,
+    });
   }
 }
