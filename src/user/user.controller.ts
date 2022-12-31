@@ -3,10 +3,6 @@ import {
   Body,
   Controller,
   Delete,
-  Inject,
-  InternalServerErrorException,
-  Logger,
-  LoggerService,
   Patch,
   Post,
   Request,
@@ -20,11 +16,7 @@ import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
-  constructor(
-    @Inject(Logger)
-    private readonly logger: LoggerService,
-    private readonly userService: UserService,
-  ) {}
+  constructor(private readonly userService: UserService) {}
 
   @Post()
   async createUser(@Body() data: CreateUserDto, @Res() res) {
