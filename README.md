@@ -35,6 +35,9 @@
 #### 3. 서버는 "npm run start:dev" 명령어를 통해 실행해주세요.
     - npm run start:dev
 
+#### 4. unit test는 "npm test" 명령어를 통해 실행해주세요.
+    - npm test
+
 </br>
 
 ### Built With
