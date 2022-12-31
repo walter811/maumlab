@@ -18,6 +18,12 @@ export class Reply {
   @Column({ type: 'varchar', name: 'content' })
   content: string;
 
+  @Column({ type: 'int', name: 'userId' })
+  userId: number;
+
+  @Column({ type: 'int', name: 'commentId' })
+  commentId: number;
+
   @CreateDateColumn()
   createdAt: Date;
 
@@ -29,11 +35,7 @@ export class Reply {
 
   @ManyToOne(() => User, (user) => user.replies, { cascade: true })
   user: User;
-  @Column({ type: 'int', name: 'userId' })
-  userId: number;
 
   @ManyToOne(() => Comment, (comment) => comment.replies, { cascade: true })
   comment: Comment;
-  @Column({ type: 'int', name: 'commentId' })
-  commentId: number;
 }
