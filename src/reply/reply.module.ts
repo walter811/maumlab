@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Board } from 'src/entities/board.entity';
 import { Comment } from 'src/entities/comment.entity';
@@ -10,6 +10,6 @@ import { ReplyService } from './reply.service';
 @Module({
   imports: [TypeOrmModule.forFeature([User, Board, Comment, Reply])],
   controllers: [ReplyController],
-  providers: [ReplyService],
+  providers: [ReplyService, Logger],
 })
 export class ReplyModule {}
