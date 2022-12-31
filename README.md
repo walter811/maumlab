@@ -20,15 +20,18 @@
     - 게시판 기능
     - 유저별 통계 기능
 
-### 서버 실행 방법
-
-1. 서버 실행 전 .env 파일 내 환경 변수를 실행하는 PC 환경에 맞춰 수정해 주세요.
-  - 수정 필요 변수: DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_DATABASE
-
 </br>
 
-2. 서버는 "npm run start:dev" 명령어를 통해 실행해주세요.
+### 서버 실행 방법
 
+#### 1. 서버 실행 전 .env 파일 내 환경 변수를 실행하는 PC 환경에 맞춰 수정해 주세요.
+    - 수정 필요 변수: DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_DATABASE
+    
+#### 2. 서버 실행 전 npm 명령어를 통해 필요한 node_module을 다운 받아주세요.
+    - npm i
+    
+#### 3. 서버는 "npm run start:dev" 명령어를 통해 실행해주세요.
+    - npm run start:dev
 
 </br>
 
