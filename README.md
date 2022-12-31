@@ -18,7 +18,9 @@
 
 1. 서버 실행 전 .env 파일 내 환경 변수를 실행하는 PC 환경에 맞춰 수정해 주세요.
   - 수정 필요 변수: DB_HOST, DB_PORT, DB_USERNAME, DB_PASSWORD, DB_DATABASE
- 
+
+</br>
+
 2. 서버는 "npm run start:dev" 명령어를 통해 실행해주세요.
 
 
